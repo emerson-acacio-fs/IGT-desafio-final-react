@@ -1,18 +1,9 @@
+import { Header } from "components/Header"
 import type { NextPage } from "next"
-import styled from "styled-components"
+import { HomeTemplate } from "Template/Home/intex"
 
-const Main = styled.main`
-  background-color: ${({ theme }) => theme.colors.red};
-  font-size: 2rem;
-`
-
-const Home: NextPage = () => {
-  return (
-    <div>
-      <h1>welcome to next.js!</h1>
-      <Main>Olá next</Main>
-    </div>
-  )
+const Index: NextPage = () => {
+  return <HomeTemplate />
 }
 
-export default Home
+export default Index
