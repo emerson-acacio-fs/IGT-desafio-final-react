@@ -1,4 +1,4 @@
-import React, { useId } from "react"
+import React, { MouseEventHandler, useId } from "react"
 import Select, {
   ActionMeta,
   GroupBase,
@@ -6,7 +6,6 @@ import Select, {
   OptionsOrGroups,
   SingleValue,
 } from "react-select"
-import styled from "styled-components"
 
 import * as S from "./style"
 interface Option {
@@ -14,7 +13,7 @@ interface Option {
   label: string
 }
 
-const options: OptionsOrGroups<Option, GroupBase<Option>> = [
+const options: Option[] = [
   { value: 2003, label: "2003" },
   { value: 2004, label: "2004" },
   { value: 2005, label: "2005" },
@@ -30,6 +29,14 @@ const options: OptionsOrGroups<Option, GroupBase<Option>> = [
   { value: 2015, label: "2015" },
 ]
 
+// const StyledSelect = styled(Select)`
+//   &&& {
+//     div[class$="-control"],
+//     div[class$="-menu"] {
+//       width: 10rem;
+//     }
+//   }
+// `
 interface IYearSelectProps {
   handleChangeYear: (year: number) => void
   year: number
@@ -42,17 +49,38 @@ export function YearSelect({ handleChangeYear, year }: IYearSelectProps) {
       handleChangeYear(data.value)
     }
   }
+  const handleClickPreviousButton: MouseEventHandler<
+    HTMLButtonElement
+  > = () => {
+    if (handleChangeYear) {
+      handleChangeYear(year - 1)
+    }
+  }
+
+  const handleClickNextButton: MouseEventHandler<HTMLButtonElement> = () => {
+    if (handleChangeYear) {
+      handleChangeYear(year + 1)
+    }
+  }
 
   return (
     <S.Wrapper>
-      <S.PreviousButton aria-label="Previous year" />
+      <S.PreviousButton
+        aria-label="Previous year"
+        disabled={year === options[0].value}
+        onClick={handleClickPreviousButton}
+      />
       <Select
         instanceId={id}
         options={options}
         value={{ value: year, label: String(year) }}
         onChange={onSelectChange}
       />
-      <S.NextButton aria-label="Next year" />
+      <S.NextButton
+        aria-label="Next year"
+        disabled={year === options[options.length - 1].value}
+        onClick={handleClickNextButton}
+      />
     </S.Wrapper>
   )
 }
