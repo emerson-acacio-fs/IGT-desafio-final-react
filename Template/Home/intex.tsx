@@ -2,13 +2,9 @@ import { Header } from "components/Header"
 import { PageWrapper } from "components/PageWrapper"
 import { YearSelect } from "components/Select"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
 
-export function HomeTemplate() {
+export function HomeTemplate({ year }: { year: number }) {
   const router = useRouter()
-  const year = router.asPath.split("#")[1]
-    ? Number(router.asPath.split("#")[1])
-    : 2015
 
   return (
     <PageWrapper>
@@ -16,7 +12,7 @@ export function HomeTemplate() {
       <YearSelect
         year={year}
         handleChangeYear={(newYear: number) => {
-          router.push(`/#${newYear}`)
+          router.push(`/${newYear}`)
         }}
       />
     </PageWrapper>
