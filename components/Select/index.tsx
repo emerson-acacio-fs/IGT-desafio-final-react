@@ -1,11 +1,7 @@
+import Link from "next/link"
+import { useRouter } from "next/router"
 import React, { MouseEventHandler, useId } from "react"
-import Select, {
-  ActionMeta,
-  GroupBase,
-  OnChangeValue,
-  OptionsOrGroups,
-  SingleValue,
-} from "react-select"
+import Select, { SingleValue } from "react-select"
 
 import * as S from "./style"
 interface Option {
@@ -38,49 +34,42 @@ const options: Option[] = [
 //   }
 // `
 interface IYearSelectProps {
-  handleChangeYear: (year: number) => void
   year: number
 }
-export function YearSelect({ handleChangeYear, year }: IYearSelectProps) {
+export function YearSelect({ year }: IYearSelectProps) {
+  const router = useRouter()
+
   const id = useId()
 
   const onSelectChange = (data: SingleValue<Option>) => {
-    if (handleChangeYear && data) {
-      handleChangeYear(data.value)
-    }
-  }
-  const handleClickPreviousButton: MouseEventHandler<
-    HTMLButtonElement
-  > = () => {
-    if (handleChangeYear) {
-      handleChangeYear(year - 1)
-    }
-  }
-
-  const handleClickNextButton: MouseEventHandler<HTMLButtonElement> = () => {
-    if (handleChangeYear) {
-      handleChangeYear(year + 1)
+    if (data) {
+      router.push(`/${data.value}`)
     }
   }
 
   return (
     <S.Wrapper>
-      <S.PreviousButton
-        aria-label="Previous year"
-        disabled={year === options[0].value}
-        onClick={handleClickPreviousButton}
-      />
-      <Select
-        instanceId={id}
-        options={options}
-        value={{ value: year, label: String(year) }}
-        onChange={onSelectChange}
-      />
-      <S.NextButton
-        aria-label="Next year"
-        disabled={year === options[options.length - 1].value}
-        onClick={handleClickNextButton}
-      />
+      <S.SelectWrapper>
+        <Link href={`/${year - 1}`} passHref>
+          <S.PreviousButton
+            aria-label="Previous year"
+            disabled={year === options[0].value}
+          />
+        </Link>
+        <Select
+          instanceId={id}
+          options={options}
+          value={{ value: year, label: String(year) }}
+          onChange={onSelectChange}
+        />
+        <Link href={`/${year + 1}`} passHref>
+          <S.NextButton
+            aria-label="Next year"
+            disabled={year === options[options.length - 1].value}
+          />
+        </Link>
+      </S.SelectWrapper>
+      <h3>{`Campeonato de ${year}`}</h3>
     </S.Wrapper>
   )
 }

@@ -7,6 +7,10 @@ export async function getStaticPaths() {
     paths: [
       { params: { year: "2003" } },
       { params: { year: "2004" } },
+      { params: { year: "2005" } },
+      { params: { year: "2006" } },
+      { params: { year: "2007" } },
+      { params: { year: "2008" } },
       { params: { year: "2015" } },
     ],
     fallback: true,
