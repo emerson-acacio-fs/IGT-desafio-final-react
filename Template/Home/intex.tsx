@@ -7,7 +7,7 @@ export function HomeTemplate() {
   return (
     <PageWrapper>
       <Header />
-      <YearSelect />
+      <YearSelect year={2015} handleChangeYear={(year: number) => {}} />
     </PageWrapper>
   )
 }
