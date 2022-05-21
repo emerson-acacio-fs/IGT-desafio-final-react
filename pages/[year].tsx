@@ -1,6 +1,7 @@
+import { getData, ITime } from "helpers/getData"
 import type { GetStaticProps } from "next"
 import { useRouter } from "next/router"
-import { HomeTemplate } from "Template/Home/intex"
+import { HomeTemplate, IHomeProps } from "Template/Home/intex"
 
 export async function getStaticPaths() {
   return {
@@ -20,8 +21,10 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (params?.year) {
     if (params.year >= "2003" && params.year <= "2015") {
+      const year = params?.year ? Number(params.year) : 2015
+      const data = await getData(year)
       return {
-        props: { year: params?.year ? Number(params.year) : 2015 },
+        props: { year, data },
       }
     }
   }
@@ -30,10 +33,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 }
 
-const Index = ({ year }: { year: number }) => {
+const Index = ({ year, data }: IHomeProps) => {
   const router = useRouter()
   if (router.isFallback) return null
-  return <HomeTemplate year={year} />
+  return <HomeTemplate year={year} data={data} />
 }
 
 export default Index
