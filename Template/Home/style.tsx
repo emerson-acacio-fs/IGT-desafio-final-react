@@ -4,8 +4,6 @@ export const TableWrapper = styled.table`
   border-spacing: 0;
   td {
     text-align: center;
-    height: 3rem;
-    height: 3rem;
   }
 `
 export const Tr = styled.tr<{ isGray?: boolean }>`
