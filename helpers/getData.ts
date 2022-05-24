@@ -54,44 +54,33 @@ export async function getData(year: number): Promise<ITime[]> {
   try {
     const { data } = await axios.get<IData[]>(`http://localhost:3001/${year}`)
 
-    let timesList: string[] = []
-    data[data.length - 1].partidas.forEach((partida) => {
-      timesList.push(partida.mandante)
-      timesList.push(partida.visitante)
-    })
-    timesList = [...new Set<string>(timesList)]
-
     const results: ITime[] = []
-    timesList.forEach((time) => {
-      data[data.length - 1].partidas.forEach((partida) => {
-        if (partida.visitante === time) {
-          results.push({
-            nome: time,
-            E: partida.pontuacao_geral_visitante.total_empates,
-            S:
-              partida.pontuacao_geral_visitante.total_gols_marcados -
-              partida.pontuacao_geral_visitante.total_gols_sofridos,
-            GC: partida.pontuacao_geral_visitante.total_gols_sofridos,
-            GP: partida.pontuacao_geral_visitante.total_gols_marcados,
-            D: partida.pontuacao_geral_visitante.total_derrotas,
-            V: partida.pontuacao_geral_visitante.total_vitorias,
-            P: partida.pontuacao_geral_visitante.total_pontos,
-          })
-        }
-        if (partida.mandante === time) {
-          results.push({
-            nome: time,
-            E: partida.pontuacao_geral_mandante.total_empates,
-            S:
-              partida.pontuacao_geral_mandante.total_gols_marcados -
-              partida.pontuacao_geral_mandante.total_gols_sofridos,
-            GC: partida.pontuacao_geral_mandante.total_gols_sofridos,
-            GP: partida.pontuacao_geral_mandante.total_gols_marcados,
-            D: partida.pontuacao_geral_mandante.total_derrotas,
-            V: partida.pontuacao_geral_mandante.total_vitorias,
-            P: partida.pontuacao_geral_mandante.total_pontos,
-          })
-        }
+
+    data[data.length - 1].partidas.forEach((partida) => {
+      results.push({
+        nome: partida.visitante,
+        E: partida.pontuacao_geral_visitante.total_empates,
+        S:
+          partida.pontuacao_geral_visitante.total_gols_marcados -
+          partida.pontuacao_geral_visitante.total_gols_sofridos,
+        GC: partida.pontuacao_geral_visitante.total_gols_sofridos,
+        GP: partida.pontuacao_geral_visitante.total_gols_marcados,
+        D: partida.pontuacao_geral_visitante.total_derrotas,
+        V: partida.pontuacao_geral_visitante.total_vitorias,
+        P: partida.pontuacao_geral_visitante.total_pontos,
+      })
+
+      results.push({
+        nome: partida.mandante,
+        E: partida.pontuacao_geral_mandante.total_empates,
+        S:
+          partida.pontuacao_geral_mandante.total_gols_marcados -
+          partida.pontuacao_geral_mandante.total_gols_sofridos,
+        GC: partida.pontuacao_geral_mandante.total_gols_sofridos,
+        GP: partida.pontuacao_geral_mandante.total_gols_marcados,
+        D: partida.pontuacao_geral_mandante.total_derrotas,
+        V: partida.pontuacao_geral_mandante.total_vitorias,
+        P: partida.pontuacao_geral_mandante.total_pontos,
       })
     })
 
