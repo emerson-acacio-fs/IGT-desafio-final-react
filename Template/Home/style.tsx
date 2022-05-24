@@ -8,7 +8,7 @@ export const TableWrapper = styled.table`
   }
 `
 export const Tr = styled.tr<{ isGray?: boolean }>`
-  text-align: center;
+  /* text-align: center; */
   height: 3rem;
   ${({ theme, isGray }) => css`
     ${!!isGray &&
@@ -23,6 +23,7 @@ export const ImgWrapper = styled.div`
     css`
       width: 2.5rem;
       height: 2.5rem;
+      display: inline-block;
       img {
         width: 100%;
         height: 100%;
